@@ -32,11 +32,3 @@ while True:
         task_id = input("Enter ID of task you would like to remove")
         TQ.remove_task(task_id)
         print("Task Removed!\n")
-
-
-
-# TQ3 = TaskQueue()
-# tasks = [Task(1, 3), Task(2, 1), Task(3, 5)]
-# for task in tasks:  
-#     TQ3.add_task(task)
-# TQ3.execute_tasks() 

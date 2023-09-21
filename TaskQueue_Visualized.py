@@ -37,7 +37,7 @@ class TaskQueue():
             task.next = self.current
             task.prev = self.current.prev
             self.current.prev.next = task
-            self.current.prev = task # Sandwich
+            self.current.prev = task # Sandwich new task between two tasks
         
         self.id_dict[task.id] = task
         self.length += 1
@@ -60,11 +60,6 @@ class TaskQueue():
             raise RuntimeError(f'id {id} not in TaskQueue')
         
     def execute_tasks(self):    
-        # def current_idx:
-        #     if clock_cycles == 0:
-        #         return 0
-        #     else:
-        #         return (clock_cycles % self.length) - amount_completed
         def redraw():
             plt.pie(sizes, labels = labels, startangle = 90,
             colors = colors, counterclock = False)
@@ -85,15 +80,9 @@ class TaskQueue():
             colors.append('gray')
         current_idx = 0
         while self.length != 0:
-            print(labels)
-            print("Switch")
-            print('Clock Cycles',clock_cycles)
-            print('TQ length', self.length)
-            print("Current idx", current_idx)
             if self.length > 1:
                 colors[current_idx - 1] = "gray"
             colors[current_idx] = "red"
-            # print(colors)
             redraw()
             plt.close()
 
@@ -112,7 +101,6 @@ class TaskQueue():
                 print(f'Finished Task {self.current.id} after {clock_cycles} clock cycles')
                 self.remove_task(self.current.id)
                 amount_completed += 1
-                print('ac',amount_completed)
                
             else: 
                 self.current.reduce_cycles(self.cycles_per_task)
@@ -122,7 +110,7 @@ class TaskQueue():
 
                 clock_cycles += self.cycles_per_task
                 self.current = self.current.next
-                current_idx += 1 #Visual
+                current_idx += 1
             if current_idx == self.length:
                 current_idx = 0
             
@@ -138,18 +126,3 @@ class TaskQueue():
             sizes.append(100/len(labels))
         plt.pie(sizes, labels = labels, startangle = 90, counterclock = False)
         plt.show()
-
-# TQ3 = TaskQueue()
-# tasks = [Task(1, 3), Task(2, 1), Task(3, 5), Task(4,9)]
-# for task in tasks:  
-#     TQ3.add_task(task)
-# # TQ3.show_queue()
-# TQ3.execute_tasks()
-
-
-# TQ3 = TaskQueue(3)
-# tasks = [Task(1, 3), Task(2, 4), Task(3, 7), Task(4,9)]
-# for task in tasks:  
-#     TQ3.add_task(task)
-# # TQ3.show_queue()
-# TQ3.execute_tasks()
